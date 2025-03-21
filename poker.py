@@ -47,5 +47,31 @@ class Omaha_holdem(Texas_holdem):
 
     def pocket_info(self):
         return f"Карты на руках: {self.first_card_value} {self.first_card_suit}, {self.second_card_value} {self.second_card_suit}, {self.third_card_value} {self.third_card_suit}, {self.forth_card_value} {self.forth_card_suit}"
+    def win_chance(self):
+
+        #проверяем параметры комбинаций
+        if self.third_card_value == "A" and self.forth_card_value == "A":
+            return "Шансы на выигрыш: 0.5%"
+        elif (self.third_card_value == "A" and self.forth_card_value == "K") or \
+             (self.third_card_value == "K" and self.forth_card_value == "A"):
+            if self.third_card_suitt == self.self.forth_card_suit:
+                return "Шансы на выигрыш: 0.8%"  #одномастные A-K
+            else:
+                return "Шансы на выигрыш: 1.4%"  #разномастные A-K
+        elif (self.third_card_value == "A" or self.third_card_value == "K") and \
+             (self.forth_card_value == "A" or self.forth_card_value == "K"):
+            return "Шансы на выигрыш: 1.7%"  #любые A-K
+        elif self.third_card_value == self.forth_card_value:
+            if self.third_card_value in {"A", "K"}:
+                return "Шансы на выигрыш: 1.4%"  #A-A или K-K
+            else:
+                return "Шансы на выигрыш: 6.4%"  #любая другая пара
+        elif self.third_card_suit == self.forth_card_suit:
+            return "Шансы на выигрыш: 24%"  #две карты одной масти
+        elif (self.third_card_value == "A" and self.forth_card_value in {"K", "Q", "J"}) or \
+             (self.forth_card_value == "A" and self.third_card_value in {"K", "Q", "J"}):
+            return "Шансы на выигрыш: 2.6%"  #A-K или топ пара
+        else:
+            return "Шансы на выигрыш: (меньше 1%)"
 
     
